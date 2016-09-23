@@ -1,6 +1,8 @@
 package jomedia.com.rssnewsfeed.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import java.util.List;
 import jomedia.com.rssnewsfeed.NewsFeedItem;
 import jomedia.com.rssnewsfeed.PicassoUtil;
 import jomedia.com.rssnewsfeed.R;
+import jomedia.com.rssnewsfeed.ui.activity.OpenItemActivity;
 
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemViewHolder>{
     private Context mContext;
@@ -40,6 +43,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemVi
         holder.itemTitle.setText(item.getTitle());
         holder.itemDate.setText(item.getDate());
         holder.itemAuthor.setText(item.getAuthor());
+        holder.cardView.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, OpenItemActivity.class);
+            intent.putExtra(OpenItemActivity.URL, item.getNewsLink());
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
@@ -58,6 +66,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemVi
         private TextView itemTitle;
         private TextView itemDate;
         private TextView itemAuthor;
+        private CardView cardView;
 
         public ItemViewHolder(View view) {
             super(view);
@@ -65,6 +74,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemVi
             itemTitle = (TextView) view.findViewById(R.id.title);
             itemDate = (TextView) view.findViewById(R.id.pub_date);
             itemAuthor = (TextView) view.findViewById(R.id.author);
+            cardView = (CardView) view.findViewById(R.id.card_view);
         }
     }
+
 }
