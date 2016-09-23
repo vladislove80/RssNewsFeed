@@ -20,6 +20,7 @@ public class Utils {
             item.setTitle(items.get(i).getTitle());
             item.setDate(items.get(i).getPubDate());
             item.setAuthor(items.get(i).getAuthor());
+            item.setNewsLink(items.get(i).getLink());
             newsFeedItems.add(item);
         }
         return newsFeedItems;

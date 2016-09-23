@@ -5,6 +5,7 @@ public class NewsFeedItem {
     private String title;
     private String date;
     private String author;
+    private String newsLink;
 
     public NewsFeedItem() {}
 
@@ -38,5 +39,13 @@ public class NewsFeedItem {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getNewsLink() {
+        return newsLink;
+    }
+
+    public void setNewsLink(String newsLink) {
+        this.newsLink = newsLink;
     }
 }
