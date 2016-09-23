@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.NewsFeedItem;
-import jomedia.com.rssnewsfeed.PicassoUtil;
+import jomedia.com.rssnewsfeed.ui.NewsFeedItem;
+import jomedia.com.rssnewsfeed.utils.PicassoUtil;
 import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.ui.activity.OpenItemActivity;
 

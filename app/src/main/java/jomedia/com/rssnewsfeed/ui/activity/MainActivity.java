@@ -9,9 +9,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.NewsFeedItem;
+import jomedia.com.rssnewsfeed.ui.NewsFeedItem;
 import jomedia.com.rssnewsfeed.R;
-import jomedia.com.rssnewsfeed.Utils;
+import jomedia.com.rssnewsfeed.utils.Utils;
 import jomedia.com.rssnewsfeed.rest.api.ApiManager;
 import jomedia.com.rssnewsfeed.rest.model.Item;
 import jomedia.com.rssnewsfeed.rest.model.RssModel;

@@ -1,10 +1,11 @@
-package jomedia.com.rssnewsfeed;
+package jomedia.com.rssnewsfeed.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jomedia.com.rssnewsfeed.ui.NewsFeedItem;
 import jomedia.com.rssnewsfeed.rest.model.Item;
 
 public class Utils {

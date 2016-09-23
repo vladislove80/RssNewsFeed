@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed;
+package jomedia.com.rssnewsfeed.utils;
 
 import android.content.Context;
 import android.widget.ImageView;
