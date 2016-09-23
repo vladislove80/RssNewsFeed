@@ -2,15 +2,20 @@ package jomedia.com.rssnewsfeed.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import jomedia.com.rssnewsfeed.NewsFeedItem;
 import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.Utils;
 import jomedia.com.rssnewsfeed.rest.api.ApiManager;
 import jomedia.com.rssnewsfeed.rest.model.Item;
 import jomedia.com.rssnewsfeed.rest.model.RssModel;
+import jomedia.com.rssnewsfeed.ui.adapter.NewsFeedAdapter;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -18,13 +23,29 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity {
     private final CompositeSubscription mSubscriptions = new CompositeSubscription();
-    private ArrayList<Item> rssItems;
+    private List<Item> mRssItemList;
+    List<NewsFeedItem> mNewsFeedItemList;
+
+    private RecyclerView mRecyclerView;
+    private NewsFeedAdapter mNewsFeedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mRssItemList = new ArrayList<>();
+        mNewsFeedItemList = new ArrayList<>();
+
         loadData();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.news_feed);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mNewsFeedAdapter = new NewsFeedAdapter(this, mNewsFeedItemList);
+        mRecyclerView.setAdapter(mNewsFeedAdapter);
     }
 
     private void loadData() {
@@ -41,11 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void onDataSuccess(RssModel rssModel) {
         if (rssModel != null) {
-            rssItems = rssModel.getChannel().getItems();
-        }
-        Log.d(Utils.LOG, "onDataSuccess ");
-        for (int i = 0; i < rssItems.size(); i++){
-            Log.d(Utils.LOG, (i+1) + " " + rssItems.get(i).getTitle());
+            mRssItemList = rssModel.getChannel().getItems();
+            Log.d(Utils.LOG, "onDataSuccess ");
+            mNewsFeedItemList = Utils.getNewsFeedItems(mRssItemList);
+
         }
     }
 
