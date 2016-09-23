@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             mRssItemList = rssModel.getChannel().getItems();
             Log.d(Utils.LOG, "onDataSuccess ");
             mNewsFeedItemList = Utils.getNewsFeedItems(mRssItemList);
-
+            mNewsFeedAdapter.notifyNewsFeedAdapter(mNewsFeedItemList);
         }
     }
 
