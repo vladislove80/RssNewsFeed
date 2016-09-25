@@ -33,7 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/item_title_size"
-            android:text="test"/>
+            android:layout_marginBottom="@dimen/item_title_margin_bottom"
+            android:text="test"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/pub_date"
