@@ -9,12 +9,12 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.ui.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.model.NewsFeedItem;
 import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.utils.Utils;
-import jomedia.com.rssnewsfeed.rest.api.ApiManager;
-import jomedia.com.rssnewsfeed.rest.model.Item;
-import jomedia.com.rssnewsfeed.rest.model.RssModel;
+import jomedia.com.rssnewsfeed.data.api.ApiManager;
+import jomedia.com.rssnewsfeed.data.model.Item;
+import jomedia.com.rssnewsfeed.data.model.RssModel;
 import jomedia.com.rssnewsfeed.ui.adapter.NewsFeedAdapter;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

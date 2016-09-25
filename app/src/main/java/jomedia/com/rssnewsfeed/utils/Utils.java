@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jomedia.com.rssnewsfeed.ui.NewsFeedItem;
-import jomedia.com.rssnewsfeed.rest.model.Item;
+import jomedia.com.rssnewsfeed.data.model.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.model.Item;
 
 public class Utils {
     public static final String LOG = "log_tag";

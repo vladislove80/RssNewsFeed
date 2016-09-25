@@ -1,8 +1,8 @@
-package jomedia.com.rssnewsfeed.rest.api;
+package jomedia.com.rssnewsfeed.data.api;
 
 import android.support.annotation.NonNull;
 
-import jomedia.com.rssnewsfeed.rest.model.RssModel;
+import jomedia.com.rssnewsfeed.data.model.RssModel;
 import rx.Observable;
 
 public class ApiManager {

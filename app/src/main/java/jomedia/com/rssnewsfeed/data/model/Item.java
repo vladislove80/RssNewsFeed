@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.rest.model;
+package jomedia.com.rssnewsfeed.data.model;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

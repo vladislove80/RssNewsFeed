@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui;
+package jomedia.com.rssnewsfeed.data.model;
 
 public class NewsFeedItem {
     private String imageLink;

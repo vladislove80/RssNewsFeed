@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.rest.api;
+package jomedia.com.rssnewsfeed.data.api;
 
 import android.support.annotation.NonNull;
 
