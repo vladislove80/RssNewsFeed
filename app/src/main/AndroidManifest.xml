@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:hardwareAccelerated="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".ui.activity.OpenItemActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
