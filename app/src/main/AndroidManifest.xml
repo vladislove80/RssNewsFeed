@@ -10,8 +10,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:configChanges="keyboardHidden|orientation">
-        <activity android:name=".ui.activity.MainActivity">
+        android:configChanges="keyboardHidden|orientation|screenSize">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:hardwareAccelerated="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +21,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:hardwareAccelerated="true"
             android:name=".ui.activity.OpenItemActivity"
-            android:configChanges="keyboardHidden|orientation"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 
 </manifest>
