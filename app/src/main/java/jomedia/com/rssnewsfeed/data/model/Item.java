@@ -12,10 +12,13 @@ public class Item {
     @Element(name = "link")
     public String link;
 
+    @Element(name = "guid")
+    public String guid;
+
     @Element(name = "pubDate")
     public String pubDate;
 
-    @Element(name = "author")
+    @Element(name = "author", required = false)
     public String author;
 
     @Element(name = "category")
@@ -70,5 +73,13 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }
