@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.news_feed);
         mTextViewNoData = (TextView) findViewById(R.id.no_data_textview);
-
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
