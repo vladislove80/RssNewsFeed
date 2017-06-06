@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_web"
+    android:id="@+id/feed_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jomedia.com.rssnewsfeed.ui.activitys.OpenItemActivity">
-
-
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    android:paddingLeft="@dimen/activity_margin_left"
+    android:paddingRight="@dimen/activity_margin_right">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -20,5 +14,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/no_data_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check conections!"
+        android:textSize="@dimen/no_data_text_size"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

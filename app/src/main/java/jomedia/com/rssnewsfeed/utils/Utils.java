@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jomedia.com.rssnewsfeed.data.model.NewsFeedItem;
-import jomedia.com.rssnewsfeed.data.model.Item;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.models.Item;
 
 public class Utils {
     public static final String LOG = "log_tag";
+    public static final String BASE_URL = "http://www.cbc.ca/";
 
     public static List<NewsFeedItem> getNewsFeedItems(List<Item> items){
         List<NewsFeedItem> newsFeedItems = new ArrayList<>();

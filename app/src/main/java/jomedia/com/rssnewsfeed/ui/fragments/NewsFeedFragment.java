@@ -1,59 +1,63 @@
-package jomedia.com.rssnewsfeed.ui.activity;
+package jomedia.com.rssnewsfeed.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.data.api.ApiManager;
-import jomedia.com.rssnewsfeed.data.model.Item;
-import jomedia.com.rssnewsfeed.data.model.NewsFeedItem;
-import jomedia.com.rssnewsfeed.data.model.RssModel;
-import jomedia.com.rssnewsfeed.ui.adapter.NewsFeedAdapter;
+import jomedia.com.rssnewsfeed.data.models.Item;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.models.RssModel;
+import jomedia.com.rssnewsfeed.ui.adapters.NewsFeedAdapter;
+import jomedia.com.rssnewsfeed.ui.adapters.NewsFeedInteractor;
 import jomedia.com.rssnewsfeed.utils.Utils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends AppCompatActivity {
+public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor{
+
     private final CompositeSubscription mSubscriptions = new CompositeSubscription();
     private List<Item> mRssItemList;
-    List<NewsFeedItem> mNewsFeedItemList;
-
+    private List<NewsFeedItem> mNewsFeedItemList;
     private RecyclerView mRecyclerView;
     private NewsFeedAdapter mNewsFeedAdapter;
-    private TextView mTextViewNoData;
-    private ProgressBar progressBar;
+    private OnNewsSelectedListener onNewsSelectedListener;
+
+    public NewsFeedFragment() {
+    }
+
+    public static NewsFeedFragment getInstance() {
+        return new NewsFeedFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         mRssItemList = new ArrayList<>();
         mNewsFeedItemList = new ArrayList<>();
-
         loadData();
+    }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.news_feed);
-        mTextViewNoData = (TextView) findViewById(R.id.no_data_textview);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = new RecyclerView(getContext());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        mNewsFeedAdapter = new NewsFeedAdapter(this, mNewsFeedItemList);
+        mNewsFeedAdapter = new NewsFeedAdapter(getContext(), mNewsFeedItemList, this);
         mRecyclerView.setAdapter(mNewsFeedAdapter);
+        addViewInContainer(mRecyclerView);
     }
 
     private void loadData() {
@@ -65,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onDataError(Throwable throwable) {
-        progressBar.setVisibility(View.GONE);
-        mTextViewNoData.setVisibility(View.VISIBLE);
+        hideProgressBar();
+        showNoDataTextView("Check connections !!");
         Log.d(Utils.LOG, "onDataError " + throwable.toString());
     }
 
     private void onDataSuccess(RssModel rssModel) {
-        progressBar.setVisibility(View.GONE);
+        hideProgressBar();
         if (rssModel != null) {
             mRssItemList = rssModel.getChannel().getItems();
             Log.d(Utils.LOG, "onDataSuccess ");
@@ -84,5 +88,20 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         mSubscriptions.clear();
         super.onDestroy();
+    }
+
+    @Override
+    public void OnNewsClick(String link) {
+        if (onNewsSelectedListener != null) {
+            onNewsSelectedListener.onNewsSelected(link);
+        }
+    }
+
+    public void setOnNewsSelectedListener(OnNewsSelectedListener onNewsSelectedListener) {
+        this.onNewsSelectedListener = onNewsSelectedListener;
+    }
+
+    public interface OnNewsSelectedListener {
+        void onNewsSelected(String link);
     }
 }

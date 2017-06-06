@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui.activity;
+package jomedia.com.rssnewsfeed.ui.activitys;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

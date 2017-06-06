@@ -2,7 +2,7 @@ package jomedia.com.rssnewsfeed.data.api;
 
 import android.support.annotation.NonNull;
 
-import jomedia.com.rssnewsfeed.data.model.RssModel;
+import jomedia.com.rssnewsfeed.data.models.RssModel;
 import rx.Observable;
 
 public class ApiManager {

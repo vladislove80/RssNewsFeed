@@ -1,7 +1,7 @@
-package jomedia.com.rssnewsfeed.ui.adapter;
+package jomedia.com.rssnewsfeed.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,20 +12,28 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.data.model.NewsFeedItem;
-import jomedia.com.rssnewsfeed.utils.PicassoUtil;
 import jomedia.com.rssnewsfeed.R;
-import jomedia.com.rssnewsfeed.ui.activity.OpenItemActivity;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.utils.PicassoUtil;
 
-public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemViewHolder>{
+public class NewsFeedAdapter
+        extends RecyclerView.Adapter<NewsFeedAdapter.ItemViewHolder>
+        implements View.OnClickListener {
+
+    @NonNull
     private Context mContext;
+    @NonNull
     private List<NewsFeedItem> mItemList;
-    private PicassoUtil picasso;
+    @NonNull
+    private PicassoUtil mPicassoManager;
+    @NonNull
+    private NewsFeedInteractor mInteractor;
 
-    public NewsFeedAdapter(Context context, List<NewsFeedItem> itemList) {
+    public NewsFeedAdapter(Context context, List<NewsFeedItem> itemList, NewsFeedInteractor interactor) {
         mContext = context;
         mItemList = itemList;
-        picasso = new PicassoUtil(mContext);
+        mInteractor = interactor;
+        mPicassoManager = new PicassoUtil(mContext);
     }
 
     @Override
@@ -39,26 +47,29 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemVi
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         NewsFeedItem item = mItemList.get(position);
-        picasso.loadImage(holder.itemImage, item.getImageLink());
+        mPicassoManager.loadImage(holder.itemImage, item.getImageLink());
         holder.itemTitle.setText(item.getTitle());
         holder.itemDate.setText(item.getDate());
         holder.itemAuthor.setText(item.getAuthor());
-        holder.cardView.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, OpenItemActivity.class);
-            intent.putExtra(OpenItemActivity.URL, item.getNewsLink());
-            mContext.startActivity(intent);
-        });
+        holder.setOnClickListener(position, this);
     }
 
     @Override
     public int getItemCount() {
-        return mItemList.size();
+        return mItemList == null ? 0 : mItemList.size();
     }
 
     public void notifyNewsFeedAdapter(List<NewsFeedItem> itemList){
         mItemList.clear();
         mItemList.addAll(itemList);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        String link = mItemList.get(position).getNewsLink();
+        mInteractor.OnNewsClick(link);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -75,6 +86,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ItemVi
             itemDate = (TextView) view.findViewById(R.id.pub_date);
             itemAuthor = (TextView) view.findViewById(R.id.author);
             cardView = (CardView) view.findViewById(R.id.card_view);
+        }
+
+        void setOnClickListener(int position, View.OnClickListener onClickListener) {
+            cardView.setTag(position);
+            cardView.setOnClickListener(onClickListener);
         }
     }
 

@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         android:configChanges="keyboardHidden|orientation|screenSize">
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activitys.MainActivity"
             android:hardwareAccelerated="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
         <activity
             android:hardwareAccelerated="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:name=".ui.activity.OpenItemActivity"
+            android:name=".ui.activitys.OpenItemActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 

@@ -4,13 +4,13 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+import jomedia.com.rssnewsfeed.utils.Utils;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class ApiFactory {
-    private static final String URL = "http://www.cbc.ca/";
     private static final int CONNECT_TIMEOUT = 30;
     private static final int READ_TIMEOUT = 30;
 
@@ -31,7 +31,7 @@ public class ApiFactory {
 
     @NonNull
     static ApiService getApiService() {
-        return getRetrofit(URL)
+        return getRetrofit(Utils.BASE_URL)
                 .create(ApiService.class);
     }
 }
