@@ -1,14 +1,16 @@
 package jomedia.com.rssnewsfeed.ui.activitys;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.ui.fragments.NewsFeedFragment;
+import jomedia.com.rssnewsfeed.ui.fragments.OpenNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements NewsFeedFragment.OnNewsSelectedListener{
 
+    private OpenNewsFragment openNewsFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +29,25 @@ public class MainActivity extends AppCompatActivity implements NewsFeedFragment.
 
     @Override
     public void onNewsSelected(String link) {
-        Intent intent = new Intent(MainActivity.this, OpenItemActivity.class);
-        intent.putExtra(OpenItemActivity.URL, link);
-        startActivity(intent);
+        openNewsFragment(link);
     }
+
+    private void openNewsFragment(String link) {
+        openNewsFragment = OpenNewsFragment.getInstance(link);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, openNewsFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && openNewsFragment != null && openNewsFragment.canGoBack()) {
+            openNewsFragment.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

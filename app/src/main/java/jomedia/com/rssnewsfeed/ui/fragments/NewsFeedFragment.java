@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,15 +50,10 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = new RecyclerView(getContext());
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        mNewsFeedAdapter = new NewsFeedAdapter(getContext(), mNewsFeedItemList, this);
-        mRecyclerView.setAdapter(mNewsFeedAdapter);
-        addViewInContainer(mRecyclerView);
+        if (mRssItemList.size() != 0) {
+            hideProgressBar();
+        }
+        addViewInContainer(setRecyclerView());
     }
 
     private void loadData() {
@@ -66,6 +62,20 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onDataSuccess, this::onDataError);
         mSubscriptions.add(subscription);
+    }
+
+    private RecyclerView setRecyclerView() {
+        mRecyclerView = new RecyclerView(getContext());
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mRecyclerView.setLayoutParams(layoutParams);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mNewsFeedAdapter = new NewsFeedAdapter(getContext(), mNewsFeedItemList, this);
+        mRecyclerView.setAdapter(mNewsFeedAdapter);
+        return mRecyclerView;
     }
 
     private void onDataError(Throwable throwable) {
@@ -85,12 +95,6 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
     }
 
     @Override
-    public void onDestroy() {
-        mSubscriptions.clear();
-        super.onDestroy();
-    }
-
-    @Override
     public void OnNewsClick(String link) {
         if (onNewsSelectedListener != null) {
             onNewsSelectedListener.onNewsSelected(link);
@@ -99,6 +103,12 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
 
     public void setOnNewsSelectedListener(OnNewsSelectedListener onNewsSelectedListener) {
         this.onNewsSelectedListener = onNewsSelectedListener;
+    }
+
+    @Override
+    public void onDestroy() {
+        mSubscriptions.clear();
+        super.onDestroy();
     }
 
     public interface OnNewsSelectedListener {
