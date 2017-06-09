@@ -6,9 +6,12 @@
 
     <dimen name="item_text_margin_left">10dp</dimen>
     <dimen name="item_text_margin_rihgt">20dp</dimen>
+    <dimen name="item_text_margin_top">10dp</dimen>
+    <dimen name="item_text_margin_bottom">10dp</dimen>
     <dimen name="item_image_margin">5dp</dimen>
     <dimen name="item_title_size">16sp</dimen>
     <dimen name="item_title_margin_bottom">5dp</dimen>
+    <dimen name="item_description_margin_bottom">5dp</dimen>
     <dimen name="item_pub_date_text_size">12sp</dimen>
     <dimen name="item_author_text_size">12sp</dimen>
 

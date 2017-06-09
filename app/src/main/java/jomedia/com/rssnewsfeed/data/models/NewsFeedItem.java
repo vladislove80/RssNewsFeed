@@ -6,8 +6,18 @@ public class NewsFeedItem {
     private String date;
     private String author;
     private String newsLink;
+    private String description;
 
     public NewsFeedItem() {}
+
+    public NewsFeedItem(String imageLink, String title, String date, String author, String newsLink, String description) {
+        this.imageLink = imageLink;
+        this.title = title;
+        this.date = date;
+        this.author = author;
+        this.newsLink = newsLink;
+        this.description = description;
+    }
 
     public String getImageLink() {
         return imageLink;
@@ -47,5 +57,13 @@ public class NewsFeedItem {
 
     public void setNewsLink(String newsLink) {
         this.newsLink = newsLink;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

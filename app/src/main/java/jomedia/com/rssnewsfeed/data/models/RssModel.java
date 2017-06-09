@@ -15,8 +15,4 @@ public class RssModel {
     {
         return channel;
     }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
 }

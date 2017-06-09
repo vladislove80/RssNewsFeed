@@ -15,15 +15,15 @@ public class MainActivity extends AppCompatActivity implements NewsFeedFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) startPostsFragment();
+        if (savedInstanceState == null) startNewsFeedFragment();
     }
 
-    private int startPostsFragment() {
+    private int startNewsFeedFragment() {
         NewsFeedFragment fragment = NewsFeedFragment.getInstance();
         fragment.setOnNewsSelectedListener(this);
         return getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, fragment)
+                .add(R.id.main_container, fragment)
                 .commit();
     }
 

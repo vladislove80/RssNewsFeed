@@ -49,6 +49,7 @@ public class NewsFeedAdapter
         NewsFeedItem item = mItemList.get(position);
         mPicassoManager.loadImage(holder.itemImage, item.getImageLink());
         holder.itemTitle.setText(item.getTitle());
+        holder.itemDescription.setText(item.getDescription());
         holder.itemDate.setText(item.getDate());
         holder.itemAuthor.setText(item.getAuthor());
         holder.setOnClickListener(position, this);
@@ -75,6 +76,7 @@ public class NewsFeedAdapter
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView itemImage;
         private TextView itemTitle;
+        private TextView itemDescription;
         private TextView itemDate;
         private TextView itemAuthor;
         private CardView cardView;
@@ -83,6 +85,7 @@ public class NewsFeedAdapter
             super(view);
             itemImage = (ImageView) view.findViewById(R.id.image);
             itemTitle = (TextView) view.findViewById(R.id.title);
+            itemDescription = (TextView) view.findViewById(R.id.description);
             itemDate = (TextView) view.findViewById(R.id.pub_date);
             itemAuthor = (TextView) view.findViewById(R.id.author);
             cardView = (CardView) view.findViewById(R.id.card_view);
