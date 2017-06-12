@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import jomedia.com.rssnewsfeed.R;
-import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.utils.PicassoUtil;
 
 public class NewsFeedAdapter
@@ -23,13 +23,13 @@ public class NewsFeedAdapter
     @NonNull
     private Context mContext;
     @NonNull
-    private List<NewsFeedItem> mItemList;
+    private List<NewsFeedItemModel> mItemList;
     @NonNull
     private PicassoUtil mPicassoManager;
     @NonNull
     private NewsFeedInteractor mInteractor;
 
-    public NewsFeedAdapter(Context context, List<NewsFeedItem> itemList, NewsFeedInteractor interactor) {
+    public NewsFeedAdapter(Context context, List<NewsFeedItemModel> itemList, NewsFeedInteractor interactor) {
         mContext = context;
         mItemList = itemList;
         mInteractor = interactor;
@@ -46,7 +46,7 @@ public class NewsFeedAdapter
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        NewsFeedItem item = mItemList.get(position);
+        NewsFeedItemModel item = mItemList.get(position);
         mPicassoManager.loadImage(holder.itemImage, item.getImageLink());
         holder.itemTitle.setText(item.getTitle());
         holder.itemDescription.setText(item.getDescription());
@@ -60,7 +60,7 @@ public class NewsFeedAdapter
         return mItemList == null ? 0 : mItemList.size();
     }
 
-    public void notifyNewsFeedAdapter(List<NewsFeedItem> itemList){
+    public void notifyNewsFeedAdapter(List<NewsFeedItemModel> itemList){
         mItemList.clear();
         mItemList.addAll(itemList);
         notifyDataSetChanged();

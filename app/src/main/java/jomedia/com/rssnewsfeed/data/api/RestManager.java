@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 import jomedia.com.rssnewsfeed.data.models.RssModel;
 import rx.Observable;
 
-public class ApiManager {
+public class RestManager {
     private static final int RETRY_COUNT_FOR_REQUEST = 0;
 
-    private ApiManager() {}
+    private RestManager() {}
     @NonNull
     public static Observable<RssModel> getRssModel() {
-        return ApiFactory.getApiService()
+        return RestFactory.getRestApi()
                 .getRssData()
                 .retry(RETRY_COUNT_FOR_REQUEST)
                 .map(response -> response);

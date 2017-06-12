@@ -7,18 +7,18 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.models.Item;
 
 public class Utils {
     public static final String LOG = "RssFeed";
     public static final String BASE_URL = "http://www.cbc.ca/";
 
-    public static List<NewsFeedItem> getNewsFeedItems(List<Item> items){
-        List<NewsFeedItem> newsFeedItems = new ArrayList<>();
+    public static List<NewsFeedItemModel> getNewsFeedItems(List<Item> items){
+        List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();
         String description = "";
         for (int i = 0; i < items.size(); i++){
-            NewsFeedItem item = new NewsFeedItem();
+            NewsFeedItemModel item = new NewsFeedItemModel();
             description = items.get(i).getDescription();
             boolean descNotNull = !TextUtils.isEmpty(description);
             String title = items.get(i).getTitle();
@@ -31,9 +31,9 @@ public class Utils {
             item.setDate(!TextUtils.isEmpty(date) ? date : "");
             item.setAuthor(!TextUtils.isEmpty(author) ? author : "");
             item.setNewsLink(!TextUtils.isEmpty(newsLink) ? newsLink : "");
-            newsFeedItems.add(item);
+            newsFeedItemModels.add(item);
         }
-        return newsFeedItems;
+        return newsFeedItemModels;
     }
 
     private static String getImageLinkFrom(String htmlDescription) {
@@ -57,7 +57,7 @@ public class Utils {
             int startIndex = src.indexOf("title=") + 7;
             desc = src.substring(startIndex, src.length());
         }
-        desc = desc + "\n" + getSecondDescription(htmlDescription);
+        desc = desc + "\n" + "\n" + getSecondDescription(htmlDescription);
         return desc;
     }
 

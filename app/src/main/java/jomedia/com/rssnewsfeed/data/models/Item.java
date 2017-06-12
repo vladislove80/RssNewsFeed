@@ -82,4 +82,17 @@ public class Item {
     public void setGuid(String guid) {
         this.guid = guid;
     }
+
+    @Override
+    public String toString() {
+        return "NewsItem{" + "\n" +
+                "title" + title + "\n" +
+                "link" + link + "\n" +
+                "guid" + guid + "\n" +
+                "pubDate" + pubDate + "\n" +
+                "author" + author + "\n" +
+                "category" + category + "\n" +
+                "description" + description +
+                "}";
+    }
 }

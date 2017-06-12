@@ -1,6 +1,6 @@
 package jomedia.com.rssnewsfeed.data.models;
 
-public class NewsFeedItem {
+public class NewsFeedItemModel {
     private String imageLink;
     private String title;
     private String date;
@@ -8,9 +8,9 @@ public class NewsFeedItem {
     private String newsLink;
     private String description;
 
-    public NewsFeedItem() {}
+    public NewsFeedItemModel() {}
 
-    public NewsFeedItem(String imageLink, String title, String date, String author, String newsLink, String description) {
+    public NewsFeedItemModel(String imageLink, String title, String date, String author, String newsLink, String description) {
         this.imageLink = imageLink;
         this.title = title;
         this.date = date;

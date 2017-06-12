@@ -16,9 +16,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.data.api.ApiManager;
+import jomedia.com.rssnewsfeed.data.api.RestManager;
 import jomedia.com.rssnewsfeed.data.models.Item;
-import jomedia.com.rssnewsfeed.data.models.NewsFeedItem;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.models.RssModel;
 import jomedia.com.rssnewsfeed.db.DatabaseConst;
 import jomedia.com.rssnewsfeed.db.DatabaseHelper;
@@ -34,7 +34,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
 
     private final CompositeSubscription mSubscriptions = new CompositeSubscription();
     private List<Item> mRssItemList;
-    private List<NewsFeedItem> mNewsFeedItemList;
+    private List<NewsFeedItemModel> mNewsFeedItemModelList;
     private RecyclerView mRecyclerView;
     private NewsFeedAdapter mNewsFeedAdapter;
     private OnNewsSelectedListener onNewsSelectedListener;
@@ -53,7 +53,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRssItemList = new ArrayList<>();
-        mNewsFeedItemList = new ArrayList<>();
+        mNewsFeedItemModelList = new ArrayList<>();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
 
     private void loadData() {
         Log.d(Utils.LOG, "loadData");
-        Subscription subscription = ApiManager.getRssModel()
+        Subscription subscription = RestManager.getRssModel()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onDataSuccess, this::onDataError);
@@ -95,7 +95,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mNewsFeedAdapter = new NewsFeedAdapter(getContext(), mNewsFeedItemList, this);
+        mNewsFeedAdapter = new NewsFeedAdapter(getContext(), mNewsFeedItemModelList, this);
         mRecyclerView.setAdapter(mNewsFeedAdapter);
         return mRecyclerView;
     }
@@ -119,10 +119,10 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         stopProgressViewOrSwipeRefresh(isSwipeRefresh);
         if (rssModel != null) {
             mRssItemList = rssModel.getChannel().getItems();
-            mNewsFeedItemList = Utils.getNewsFeedItems(mRssItemList);
-            saveNewsToBD(mNewsFeedItemList);
-            mNewsFeedAdapter.notifyNewsFeedAdapter(mNewsFeedItemList);
-            Toast.makeText(getContext(), "Новости загружены успешно", Toast.LENGTH_SHORT).show();
+            mNewsFeedItemModelList = Utils.getNewsFeedItems(mRssItemList);
+            saveNewsToBD(mNewsFeedItemModelList);
+            mNewsFeedAdapter.notifyNewsFeedAdapter(mNewsFeedItemModelList);
+            Toast.makeText(getContext(), "News loaded", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -140,13 +140,13 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
                 String date = cursor.getString(cursor.getColumnIndex(DatabaseConst.ITEM_FIELDS.DATE));
                 String author = cursor.getString(cursor.getColumnIndex(DatabaseConst.ITEM_FIELDS.AUTHOR));
                 String newsLink = cursor.getString(cursor.getColumnIndex(DatabaseConst.ITEM_FIELDS.NEWS_LINK));
-                NewsFeedItem newsFeedItem = new NewsFeedItem(imageLink, title, date, author, newsLink, description);
-                mNewsFeedItemList.add(newsFeedItem);
+                NewsFeedItemModel newsFeedItemModel = new NewsFeedItemModel(imageLink, title, date, author, newsLink, description);
+                mNewsFeedItemModelList.add(newsFeedItemModel);
                 cursor.moveToNext();
             }
             cursor.close();
             hideProgressBar();
-            Toast.makeText(getContext(), "Офлайн режим!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Offline mode!", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(Utils.LOG, "Database is empty!");
             showNoDataTextView("Check connections !!");
@@ -154,7 +154,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         closeDB();
     }
 
-    private void saveNewsToBD(List<NewsFeedItem> newsFeedItemList){
+    private void saveNewsToBD(List<NewsFeedItemModel> newsFeedItemModelList){
         Log.d(Utils.LOG, "saveNewsToBD");
         openDBForSaveData();
         String sql = String.format("INSERT INTO %s ('%s', '%s', '%s', '%s', '%s', '%s') VALUES(?1, ?2, ?3, ?4, ?5, ?6)",
@@ -170,7 +170,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         SQLiteStatement stmt = database.compileStatement(sql);
         Log.d(Utils.LOG, "stmt = " + stmt.toString());
         database.beginTransaction();
-        for (NewsFeedItem item: newsFeedItemList) {
+        for (NewsFeedItemModel item: newsFeedItemModelList) {
             stmt.clearBindings();
             stmt.bindString(1, item.getImageLink());
             stmt.bindString(2, item.getTitle());

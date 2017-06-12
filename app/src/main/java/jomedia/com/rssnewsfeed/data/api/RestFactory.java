@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-public class ApiFactory {
+public class RestFactory {
     private static final int CONNECT_TIMEOUT = 30;
     private static final int READ_TIMEOUT = 30;
 
@@ -30,8 +30,8 @@ public class ApiFactory {
     }
 
     @NonNull
-    static ApiService getApiService() {
+    static RestApi getRestApi() {
         return getRetrofit(Utils.BASE_URL)
-                .create(ApiService.class);
+                .create(RestApi.class);
     }
 }
