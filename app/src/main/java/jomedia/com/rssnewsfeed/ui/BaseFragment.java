@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui.fragments;
+package jomedia.com.rssnewsfeed.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

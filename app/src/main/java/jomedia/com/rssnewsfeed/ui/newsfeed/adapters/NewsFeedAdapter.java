@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui.adapters;
+package jomedia.com.rssnewsfeed.ui.newsfeed.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

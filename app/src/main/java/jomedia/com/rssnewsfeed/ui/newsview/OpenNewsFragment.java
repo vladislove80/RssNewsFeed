@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui.fragments;
+package jomedia.com.rssnewsfeed.ui.newsview;
 
 import android.annotation.TargetApi;
 import android.net.Uri;
@@ -6,10 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import jomedia.com.rssnewsfeed.ui.BaseFragment;
 
 public class OpenNewsFragment extends BaseFragment {
 

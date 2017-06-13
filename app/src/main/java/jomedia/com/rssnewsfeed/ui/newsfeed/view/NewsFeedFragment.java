@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.ui.fragments;
+package jomedia.com.rssnewsfeed.ui.newsfeed.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +16,9 @@ import java.util.List;
 import jomedia.com.rssnewsfeed.RssAplication;
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
-import jomedia.com.rssnewsfeed.ui.adapters.NewsFeedAdapter;
-import jomedia.com.rssnewsfeed.ui.adapters.NewsFeedInteractor;
+import jomedia.com.rssnewsfeed.ui.newsfeed.adapters.NewsFeedAdapter;
+import jomedia.com.rssnewsfeed.ui.newsfeed.adapters.NewsFeedInteractor;
+import jomedia.com.rssnewsfeed.ui.BaseFragment;
 import jomedia.com.rssnewsfeed.utils.Utils;
 
 public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor{

@@ -1,12 +1,12 @@
-package jomedia.com.rssnewsfeed.ui.activitys;
+package jomedia.com.rssnewsfeed.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import jomedia.com.rssnewsfeed.R;
-import jomedia.com.rssnewsfeed.ui.fragments.NewsFeedFragment;
-import jomedia.com.rssnewsfeed.ui.fragments.OpenNewsFragment;
+import jomedia.com.rssnewsfeed.ui.newsfeed.view.NewsFeedFragment;
+import jomedia.com.rssnewsfeed.ui.newsview.OpenNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements NewsFeedFragment.OnNewsSelectedListener{
 
