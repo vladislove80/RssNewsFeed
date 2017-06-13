@@ -1,4 +1,4 @@
-package jomedia.com.rssnewsfeed.db;
+package jomedia.com.rssnewsfeed.data.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

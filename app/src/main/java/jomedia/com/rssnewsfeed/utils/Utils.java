@@ -13,6 +13,7 @@ import jomedia.com.rssnewsfeed.data.models.Item;
 public class Utils {
     public static final String LOG = "RssFeed";
     public static final String BASE_URL = "http://www.cbc.ca/";
+    public static final String TOP_NEWS = "cmlink/rss-topstories";
 
     public static List<NewsFeedItemModel> getNewsFeedItems(List<Item> items){
         List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();

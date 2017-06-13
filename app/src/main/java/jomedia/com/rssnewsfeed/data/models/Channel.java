@@ -8,32 +8,25 @@ import java.util.ArrayList;
 
 @Root(name = "channel", strict = false)
 public class Channel {
-    @ElementList(name = "item", inline = true)
-    public ArrayList<Item> mItems;
 
     @Element(required = false)
     private String title;
-
     @Element(required = false)
     private String link;
-
     @Element(required = false)
     private String description;
-
-    @Element(required = false)
-    private String docs;
-
-    @Element(required = false)
-    private String lastBuildDate;
-
     @Element(required = false)
     private String language;
+    @Element(required = false)
+    private String lastBuildDate;
+    @Element(required = false)
+    private String copyright;
+    @Element(required = false)
+    private String docs;
+    @ElementList(required = false, inline = true)
+    public ArrayList<Item> mItems;
 
     public ArrayList<Item> getItems(){
         return mItems;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        mItems = items;
     }
 }

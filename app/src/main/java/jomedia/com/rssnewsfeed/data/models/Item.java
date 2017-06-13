@@ -8,24 +8,37 @@ public class Item {
 
     @Element(name = "title")
     public String title;
-
     @Element(name = "link")
     public String link;
-
     @Element(name = "guid")
     public String guid;
-
     @Element(name = "pubDate")
     public String pubDate;
-
-    @Element(name = "author", required = false)
+    @Element(name = "author")
     public String author;
-
     @Element(name = "category")
     public String category;
-
     @Element(name = "description")
     public String description;
+
+    public Item() {
+    }
+
+    public Item(String title,
+                String link,
+                String guid,
+                String pubDate,
+                String author,
+                String category,
+                String description) {
+        this.title = title;
+        this.link = link;
+        this.guid = guid;
+        this.pubDate = pubDate;
+        this.author = author;
+        this.category = category;
+        this.description = description;
+    }
 
     public String getTitle() {
         return title;
