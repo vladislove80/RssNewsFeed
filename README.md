@@ -1,2 +1,2 @@
 # RssNewsFeed
-news feed from rss
+News feed from rss (cbc.ca) with MVP
