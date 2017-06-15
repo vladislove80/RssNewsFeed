@@ -1,11 +1,13 @@
 package jomedia.com.rssnewsfeed.ui.newsfeed.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -13,21 +15,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import jomedia.com.rssnewsfeed.RssAplication;
-import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
-import jomedia.com.rssnewsfeed.ui.newsfeed.adapters.NewsFeedAdapter;
-import jomedia.com.rssnewsfeed.ui.newsfeed.adapters.NewsFeedInteractor;
 import jomedia.com.rssnewsfeed.ui.BaseFragment;
+import jomedia.com.rssnewsfeed.ui.newsfeed.adapters.NewsFeedAdapter;
+import jomedia.com.rssnewsfeed.ui.newsfeed.presenter.NewsPresenter;
 import jomedia.com.rssnewsfeed.utils.Utils;
 
-public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor{
+public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeedInteractor{
 
     private List<NewsFeedItemModel> mNewsFeedItemModelList;
     private NewsFeedAdapter mNewsFeedAdapter;
-    private OnNewsSelectedListener onNewsSelectedListener;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private boolean isSwipeRefresh = false;
+    private NewsPresenter presenter;
+
+    private boolean mAlreadyLoaded = false;
 
     public NewsFeedFragment() {}
 
@@ -41,16 +42,22 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         mNewsFeedItemModelList = new ArrayList<>();
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (mNewsFeedItemModelList.size() != 0) {
-            hideProgressBar();
-        } else {
-            initModel();
+        Log.v(Utils.LOG, "NewsFeedFragment -> onViewCreated: savedInstanceState == "
+                + ((savedInstanceState == null)? "null" : "not null"));
+        if (!mAlreadyLoaded) {
+            getPresenter().loadNews();
+            mAlreadyLoaded = true;
         }
-
         swipeRefreshLayout = new SwipeRefreshLayout(getContext());
         SwipeRefreshLayout.LayoutParams swipeRefreshLayoutParams = new SwipeRefreshLayout.LayoutParams(
                 SwipeRefreshLayout.LayoutParams.MATCH_PARENT,
@@ -58,34 +65,13 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         );
         swipeRefreshLayout.setLayoutParams(swipeRefreshLayoutParams);
         swipeRefreshLayout.addView(setRecyclerView());
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            isSwipeRefresh = true;
-            initModel();
-        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPresenter().loadNews();
+            }});
+
         addViewInContainer(swipeRefreshLayout);
-    }
-
-    private void initModel() {
-        Log.d(Utils.LOG, "NewsFeedFragment -> initModel()");
-        RssAplication.getNewsRepository().getNewsItems(new NewsCallback<List<NewsFeedItemModel>>() {
-            @Override
-            public void onEmit(List<NewsFeedItemModel> data) {
-                Log.d(Utils.LOG, "NewsFeedFragment -> initModel -> onEmit: data.size = " + data.size());
-                mNewsFeedAdapter.notifyNewsFeedAdapter(data);
-            }
-
-            @Override
-            public void onCompleted(boolean isOffLine) {
-                Toast.makeText(getContext(), "News loaded " + ((isOffLine)? "offline":"successfully"), Toast.LENGTH_SHORT).show();
-                stopProgressViewOrSwipeRefresh(isSwipeRefresh);
-                isSwipeRefresh = false;
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Toast.makeText(getContext(), "getPosts error", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private RecyclerView setRecyclerView() {
@@ -101,26 +87,49 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedInteractor
         return mRecyclerView;
     }
 
-    private void stopProgressViewOrSwipeRefresh(boolean swipeRefresh){
-        if (swipeRefresh) {
-            swipeRefreshLayout.setRefreshing(false);
-        } else {
-            hideProgressBar();
-        }
+    @Override
+    public void OnNewsClick(String link) {
+        getPresenter().onNewsFeedItemClick(link);
     }
 
     @Override
-    public void OnNewsClick(String link) {
-        if (onNewsSelectedListener != null) {
-            onNewsSelectedListener.onNewsSelected(link);
-        }
+    public void showProgress() {
+        showProgressBar();
     }
 
-    public void setOnNewsSelectedListener(OnNewsSelectedListener onNewsSelectedListener) {
-        this.onNewsSelectedListener = onNewsSelectedListener;
+    @Override
+    public void hideProgress() {
+        hideProgressBar();
     }
 
-    public interface OnNewsSelectedListener {
-        void onNewsSelected(String link);
+    @Override
+    public void showNoDataMessage(String message) {
+        showNoDataTextView(message);
+    }
+
+    @Override
+    public void showNewsStatus(String status) {
+        Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void bindPresenter(NewsPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public NewsPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public void showNews(@NonNull List<NewsFeedItemModel> models) {
+        mNewsFeedAdapter.notifyNewsFeedAdapter(models);
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

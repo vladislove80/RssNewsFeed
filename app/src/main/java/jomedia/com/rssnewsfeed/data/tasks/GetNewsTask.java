@@ -11,6 +11,7 @@ import java.util.List;
 
 import jomedia.com.rssnewsfeed.data.api.RestApi;
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
+import jomedia.com.rssnewsfeed.data.models.DataResponse;
 import jomedia.com.rssnewsfeed.data.models.Item;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.models.RssModel;
@@ -26,42 +27,45 @@ public class GetNewsTask implements Runnable {
     @NonNull
     private final Handler mainHandler;
     @NonNull
-    private final NewsCallback<List<NewsFeedItemModel>> callback;
-    private boolean isOffLine = false;
+    private final NewsCallback<DataResponse> callback;
+    private boolean isOffline;
 
     public GetNewsTask(@NonNull DatabaseSource localDataSource,
                        @NonNull RestApi restApi,
                        @NonNull Handler mainHandler,
-                       @NonNull NewsCallback<List<NewsFeedItemModel>> callback) {
+                       @NonNull NewsCallback<DataResponse> callback) {
         this.localDataSource = localDataSource;
         this.restApi = restApi;
         this.mainHandler = mainHandler;
         this.callback = callback;
-        Log.i(Utils.LOG, "GetNewsTask: ");
+        Log.v(Utils.LOG, "GetNewsTask: ");
     }
 
     @Override
     public void run() {
-        Log.i(Utils.LOG, "GetNewsTask -> run");
+        Log.v(Utils.LOG, "GetNewsTask -> run");
         List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();
         List<Item> items = getItems();
         if (!items.isEmpty()) {
             newsFeedItemModels = Utils.getNewsFeedItems(items);
         }
-        mainHandler.post(new CallbackToUI(newsFeedItemModels, isOffLine));
+        mainHandler.post(new CallbackToUI(new DataResponse(newsFeedItemModels, isOffline)));
     }
 
     private List<Item> getItems() {
-        List<Item> items = getRemoteNews();
-
-        if (items == null) {
-            isOffLine = true;
-            items = localDataSource.getAllItems();
+        isOffline = true;
+        List<Item> remoteItems = getRemoteNews();
+        List<Item> localItems = localDataSource.getAllItems();
+        if (remoteItems == null) {
+            if (localItems == null) {
+                localItems = Collections.emptyList();
+            }
+            return localItems;
         } else {
-            saveNews(items);
+            isOffline = false;
+            saveNews(remoteItems);
+            return remoteItems;
         }
-
-        return items == null ? Collections.emptyList() : items;
     }
 
     private void saveNews(List<Item> items) {
@@ -74,28 +78,32 @@ public class GetNewsTask implements Runnable {
         List<Item> items = null;
         try {
             RssModel rssModel = restApi.getRssData().execute().body();
-            items = rssModel.getChannel().getItems();
+            if (rssModel != null) {
+                items = rssModel.getChannel().getItems();
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            mainHandler.post(() -> callback.onError(new IOException("Response not converted to list of post")));
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(new IOException("Response not converted to list of post"));
+                }
+            });
         }
         return items;
     }
 
     private class CallbackToUI implements Runnable {
-        private final List<NewsFeedItemModel> news;
-        private final boolean isOffLine;
+        private final DataResponse response;
 
-        public CallbackToUI(List<NewsFeedItemModel> news, boolean isOffLine) {
-            this.news = news;
-            this.isOffLine = isOffLine;
+        public CallbackToUI(DataResponse response) {
+            this.response = response;
         }
 
         @Override
         public void run() {
-            Log.i(Utils.LOG, "GetNewsTask -> CallbackToUI -> run");
-            callback.onEmit(news);
-            callback.onCompleted(isOffLine);
+            callback.onEmit(response);
+            callback.onCompleted();
         }
     }
 }

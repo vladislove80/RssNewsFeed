@@ -34,6 +34,12 @@ public class BaseFragment extends Fragment {
         }
     }
 
+    public void showProgressBar(){
+        if (mProgressBar != null && mProgressBar.getVisibility() == View.GONE) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onStop() {
         super.onStop();

@@ -14,6 +14,7 @@ import java.util.List;
 
 import jomedia.com.rssnewsfeed.R;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
+import jomedia.com.rssnewsfeed.ui.newsfeed.view.NewsFeedInteractor;
 import jomedia.com.rssnewsfeed.utils.PicassoUtil;
 
 public class NewsFeedAdapter

@@ -5,10 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import jomedia.com.rssnewsfeed.R;
+import jomedia.com.rssnewsfeed.RssAplication;
+import jomedia.com.rssnewsfeed.ui.newsfeed.OnNewsSelectedListener;
+import jomedia.com.rssnewsfeed.ui.newsfeed.presenter.NewsPresenter;
+import jomedia.com.rssnewsfeed.ui.newsfeed.presenter.NewsPresenterImpl;
 import jomedia.com.rssnewsfeed.ui.newsfeed.view.NewsFeedFragment;
 import jomedia.com.rssnewsfeed.ui.newsview.OpenNewsFragment;
 
-public class MainActivity extends AppCompatActivity implements NewsFeedFragment.OnNewsSelectedListener{
+public class MainActivity extends AppCompatActivity implements OnNewsSelectedListener {
 
     private OpenNewsFragment openNewsFragment;
     @Override
@@ -19,8 +23,11 @@ public class MainActivity extends AppCompatActivity implements NewsFeedFragment.
     }
 
     private int startNewsFeedFragment() {
+        NewsPresenter presenter = new NewsPresenterImpl(this, RssAplication.getNewsRepository());
         NewsFeedFragment fragment = NewsFeedFragment.getInstance();
-        fragment.setOnNewsSelectedListener(this);
+        presenter.bindView(fragment);
+        fragment.bindPresenter(presenter);
+        //fragment.setOnNewsSelectedListener(this);
         return getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_container, fragment)

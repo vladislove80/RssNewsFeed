@@ -12,6 +12,7 @@ import jomedia.com.rssnewsfeed.data.api.RestApi;
 import jomedia.com.rssnewsfeed.data.api.RestManager;
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
 import jomedia.com.rssnewsfeed.data.executor.TaskExecutor;
+import jomedia.com.rssnewsfeed.data.models.DataResponse;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.db.DatabaseSource;
 import jomedia.com.rssnewsfeed.data.db.DatabaseSourceImpl;
@@ -24,19 +25,17 @@ public class NewsRepositoryImpl implements NewsRepository {
     private final DatabaseSource diskDataSource;
     private final ExecutorService executorService;
     private final Handler mainUiHandler;
-    //private final MemoryCache memoryCache;
 
     public NewsRepositoryImpl(@NonNull Context context) {
-        restApi = new RestManager(context).provideRestApi(Utils.BASE_URL);
+        restApi = new RestManager().provideRestApi(Utils.BASE_URL);
         diskDataSource = new DatabaseSourceImpl(context);
         TaskExecutor taskExecutor = new TaskExecutor();
         executorService = taskExecutor.getThreadPoolExecutor();
         mainUiHandler = new Handler(Looper.getMainLooper());
-        //memoryCache = MemoryCache.create();
     }
 
     @Override
-    public void getNewsItems(@NonNull NewsCallback<List<NewsFeedItemModel>> callback) {
+    public void getNewsItems(@NonNull NewsCallback<DataResponse> callback) {
         executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback));
     }
 }

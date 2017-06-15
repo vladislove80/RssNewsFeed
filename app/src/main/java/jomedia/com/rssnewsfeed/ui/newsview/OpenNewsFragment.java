@@ -1,5 +1,6 @@
 package jomedia.com.rssnewsfeed.ui.newsview;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import jomedia.com.rssnewsfeed.ui.BaseFragment;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class OpenNewsFragment extends BaseFragment {
 
     public static final String URL = "newsLink";
@@ -31,6 +33,7 @@ public class OpenNewsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        showProgressBar();
         mWebView = new WebView(getContext());
         mWebView.getSettings().setJavaScriptEnabled(true);
 

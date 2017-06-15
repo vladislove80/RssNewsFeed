@@ -33,8 +33,13 @@ public class DatabaseSourceImpl implements DatabaseSource {
         isClosed = true;
 
         handler = new Handler();
-        closeDbRunnable = () -> closeDB();
 
+        closeDbRunnable = new Runnable() {
+            @Override
+            public void run() {
+                closeDB();
+            }
+        };
         openDB();
     }
 
@@ -76,6 +81,9 @@ public class DatabaseSourceImpl implements DatabaseSource {
     @WorkerThread
     @Override
     public void saveNews(@NonNull List<Item> items) {
+        if (database != null) {
+            databaseHelper.clearTable(database);
+        }
         if (!isClosed) {
             insertNews(items);
         } else {
