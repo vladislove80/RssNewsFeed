@@ -58,7 +58,8 @@ public class Utils {
             int startIndex = src.indexOf("title=") + 7;
             desc = src.substring(startIndex, src.length());
         }
-        desc = desc + "\n" + "\n" + getSecondDescription(htmlDescription);
+        desc = (desc.length() == 0)?
+                getSecondDescription(htmlDescription):desc + "\n" + "\n" + getSecondDescription(htmlDescription);
         return desc;
     }
 

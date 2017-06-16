@@ -17,7 +17,6 @@ public class PicassoUtil {
     public void loadImage(ImageView view, String url) {
         Picasso.with(context)
                 .load(url)
-                .resize(150, 100)
                 .placeholder(R.drawable.placeholder_150)
                 .into(view);
     }
