@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">RssNewsFeed</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>Top stories</item>
+        <item>World</item>
+        <item>Canada</item>
+        <item>Politics</item>
+        <item>Bussiness</item>
+        <item>Health</item>
+        <item>Art</item>
+        <item>Technology</item>
+        <item>Offbeat</item>
+        <item>Aboriginal</item>
+        <item>Sports</item>
+        <item>MLB</item>
+        <item>NBA</item>
+        <item>Curling</item>
+        <item>CFL</item>
+        <item>NFL</item>
+        <item>NHL</item>
+        <item>Soccer</item>
+        <item>Figure skating</item>
+    </string-array>
 </resources>

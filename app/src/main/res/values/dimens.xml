@@ -3,6 +3,7 @@
     <!-- MainActivity -->
     <dimen name="activity_margin_right">3dp</dimen>
     <dimen name="activity_margin_left">3dp</dimen>
+    <dimen name="navigationview_header_height">190dp</dimen>
 
     <!--NewsFeedFragment-->
     <dimen name="item_title_size">16sp</dimen>

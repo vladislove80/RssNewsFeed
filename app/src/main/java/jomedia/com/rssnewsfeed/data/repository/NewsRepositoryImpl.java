@@ -35,7 +35,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void getNewsItems(@NonNull NewsCallback<DataResponse> callback) {
-        executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback));
+    public void getNewsItems(@NonNull NewsCallback<DataResponse> callback, @NonNull String link) {
+        executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback, link));
     }
 }

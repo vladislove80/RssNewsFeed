@@ -109,13 +109,13 @@ public class DatabaseSourceImpl implements DatabaseSource {
         database.beginTransaction();
         for (Item item: items) {
             stmt.clearBindings();
-            stmt.bindString(1, item.getTitle());
-            stmt.bindString(2, item.getLink());
-            stmt.bindString(3, item.getGuid());
-            stmt.bindString(4, item.getPubDate());
-            stmt.bindString(5, item.getAuthor());
-            stmt.bindString(6, item.getCategory());
-            stmt.bindString(7, item.getDescription());
+            stmt.bindString(1, (item.getTitle() == null)? "":item.getTitle());
+            stmt.bindString(2, (item.getLink() == null)? "":item.getLink());
+            stmt.bindString(3, (item.getGuid() == null)? "":item.getGuid());
+            stmt.bindString(4, (item.getPubDate() == null)? "":item.getPubDate());
+            stmt.bindString(5, (item.getAuthor() == null)? "":item.getAuthor());
+            stmt.bindString(6, (item.getCategory() == null)? "":item.getCategory());
+            stmt.bindString(7, (item.getDescription() == null)? "":item.getDescription());
             stmt.executeInsert();
         }
         database.setTransactionSuccessful();

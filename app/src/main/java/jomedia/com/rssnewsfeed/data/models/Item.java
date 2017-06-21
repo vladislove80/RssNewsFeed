@@ -6,19 +6,19 @@ import org.simpleframework.xml.Root;
 @Root(name = "item", strict = false)
 public class Item {
 
-    @Element(name = "title")
+    @Element(name = "title", required = false)
     public String title;
-    @Element(name = "link")
+    @Element(name = "link", required = false)
     public String link;
-    @Element(name = "guid")
+    @Element(name = "guid", required = false)
     public String guid;
-    @Element(name = "pubDate")
+    @Element(name = "pubDate", required = false)
     public String pubDate;
-    @Element(name = "author")
+    @Element(name = "author", required = false)
     public String author;
-    @Element(name = "category")
+    @Element(name = "category", required = false)
     public String category;
-    @Element(name = "description")
+    @Element(name = "description", required = false)
     public String description;
 
     public Item() {

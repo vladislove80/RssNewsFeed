@@ -29,15 +29,18 @@ public class GetNewsTask implements Runnable {
     @NonNull
     private final NewsCallback<DataResponse> callback;
     private boolean isOffline;
+    String link;
 
     public GetNewsTask(@NonNull DatabaseSource localDataSource,
                        @NonNull RestApi restApi,
                        @NonNull Handler mainHandler,
-                       @NonNull NewsCallback<DataResponse> callback) {
+                       @NonNull NewsCallback<DataResponse> callback,
+                       @NonNull String link) {
         this.localDataSource = localDataSource;
         this.restApi = restApi;
         this.mainHandler = mainHandler;
         this.callback = callback;
+        this.link = link;
         Log.v(Utils.LOG, "GetNewsTask: ");
     }
 
@@ -77,7 +80,7 @@ public class GetNewsTask implements Runnable {
     private List<Item> getRemoteNews() {
         List<Item> items = null;
         try {
-            RssModel rssModel = restApi.getRssData().execute().body();
+            RssModel rssModel = restApi.getRssData(link).execute().body();
             if (rssModel != null) {
                 items = rssModel.getChannel().getItems();
             }

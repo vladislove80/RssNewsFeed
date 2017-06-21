@@ -9,5 +9,5 @@ import jomedia.com.rssnewsfeed.data.models.DataResponse;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 
 public interface NewsRepository {
-    void getNewsItems(@NonNull NewsCallback<DataResponse> callback);
+    void getNewsItems(@NonNull NewsCallback<DataResponse> callback, @NonNull String link);
 }

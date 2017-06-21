@@ -1,5 +1,6 @@
 package jomedia.com.rssnewsfeed.ui.newsfeed.presenter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -28,7 +29,7 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
     }
 
     @Override
-    public void loadNews() {
+    public void loadNews(@NonNull String link) {
         showProgress();
         newsRepository.getNewsItems(new NewsCallback<DataResponse>() {
             @Override
@@ -45,7 +46,7 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
             public void onError(Throwable throwable) {
                 showError();
             }
-        });
+        }, link);
     }
 
     @Override

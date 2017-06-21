@@ -7,9 +7,9 @@ import org.simpleframework.xml.Root;
 @Root(name = "rss", strict = false)
 public class RssModel {
 
-    @Attribute
+    @Attribute(name = "version", required = false)
     private String version;
-    @Element(name = "channel")
+    @Element(name = "channel", required = false)
     private Channel channel;
 
     public Channel getChannel ()

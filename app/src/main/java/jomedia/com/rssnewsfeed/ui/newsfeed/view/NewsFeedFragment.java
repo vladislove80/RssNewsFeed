@@ -27,6 +27,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
     private NewsFeedAdapter mNewsFeedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NewsPresenter presenter;
+    String link;
 
     private boolean mAlreadyLoaded = false;
 
@@ -39,6 +40,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        link = getArguments().getString("link to news");
         mNewsFeedItemModelList = new ArrayList<>();
     }
 
@@ -55,7 +57,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
         Log.v(Utils.LOG, "NewsFeedFragment -> onViewCreated: savedInstanceState == "
                 + ((savedInstanceState == null)? "null" : "not null"));
         if (!mAlreadyLoaded) {
-            getPresenter().loadNews();
+            getPresenter().loadNews(link);
             mAlreadyLoaded = true;
         }
         swipeRefreshLayout = new SwipeRefreshLayout(getContext());
@@ -68,7 +70,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getPresenter().loadNews();
+                getPresenter().loadNews(link);
             }});
 
         addViewInContainer(swipeRefreshLayout);
