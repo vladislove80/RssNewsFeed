@@ -7,19 +7,21 @@
 
     <!--NewsFeedFragment-->
     <dimen name="item_title_size">16sp</dimen>
-    <dimen name="item_title_margin_bottom">5dp</dimen>
     <dimen name="item_pub_date_text_size">12sp</dimen>
     <dimen name="item_author_text_size">12sp</dimen>
-    <dimen name="card_view_corner_radius">15dp</dimen>
+    <dimen name="card_view_corner_radius">5dp</dimen>
     <dimen name="no_data_text_size">16sp</dimen>
-    <dimen name="cardview_margin">5dp</dimen>
-    <dimen name="title_margin_top">5dp</dimen>
+    <dimen name="cardview_margin">8dp</dimen>
+    <dimen name="title_margin_top">10dp</dimen>
     <dimen name="title_margin_right">10dp</dimen>
     <dimen name="title_margin_left">10dp</dimen>
-    <dimen name="description_margin_top">5dp</dimen>
+    <dimen name="description_margin_top">10dp</dimen>
     <dimen name="description_margin_bottom">5dp</dimen>
     <dimen name="description_margin_right">15dp</dimen>
     <dimen name="description_margin_left">15dp</dimen>
     <dimen name="date_author_layout_margin">10dp</dimen>
+    <dimen name="image_description_margin_top">5dp</dimen>
+    <dimen name="image_description_margin_right">15dp</dimen>
+    <dimen name="image_description_margin_left">15dp</dimen>
 
 </resources>

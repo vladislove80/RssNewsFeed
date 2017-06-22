@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">RssNewsFeed</string>
     <string-array name="navigation_drawer_items_array">
         <item>Top stories</item>
         <item>World</item>

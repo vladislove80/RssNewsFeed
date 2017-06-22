@@ -49,6 +49,7 @@ public class Utils {
             String newsLink = items.get(i).getLink();
             item.setImageLink(descNotNull ? getImageLinkFrom(description) : "");
             item.setTitle(!TextUtils.isEmpty(title) ? title : "");
+            item.setImageDescription(descNotNull ? getImageDescription(description) : "");
             item.setDescription(descNotNull ? getNewsDescription(description) : "");
             item.setDate(!TextUtils.isEmpty(date) ? date : "");
             item.setAuthor(!TextUtils.isEmpty(author) ? author : "");
@@ -70,7 +71,7 @@ public class Utils {
         return srcTag;
     }
 
-    private static String getNewsDescription(String htmlDescription){
+    private static String getImageDescription(String htmlDescription){
         String desc = "";
         Pattern p = Pattern.compile("<img[^>]*title=[\\\"']([^\\\"^']*)");
         Matcher m = p.matcher(htmlDescription);
@@ -79,12 +80,10 @@ public class Utils {
             int startIndex = src.indexOf("title=") + 7;
             desc = src.substring(startIndex, src.length());
         }
-        desc = (desc.length() == 0)?
-                getSecondDescription(htmlDescription):desc + "\n" + "\n" + getSecondDescription(htmlDescription);
         return desc;
     }
 
-    private static String getSecondDescription(String htmlDesc){
+    private static String getNewsDescription(String htmlDesc){
         return htmlDesc.substring(htmlDesc.indexOf("<p>") + 3, htmlDesc.indexOf("</p>"));
     }
 }

@@ -50,6 +50,7 @@ public class NewsFeedAdapter
         NewsFeedItemModel item = mItemList.get(position);
         mPicassoManager.loadImage(holder.itemImage, item.getImageLink());
         holder.itemTitle.setText(item.getTitle());
+        holder.imageDescription.setText(item.getImageDescription());
         holder.itemDescription.setText(item.getDescription());
         holder.itemDate.setText(item.getDate());
         holder.itemAuthor.setText(item.getAuthor());
@@ -78,6 +79,7 @@ public class NewsFeedAdapter
         private ImageView itemImage;
         private TextView itemTitle;
         private TextView itemDescription;
+        private TextView imageDescription;
         private TextView itemDate;
         private TextView itemAuthor;
         private CardView cardView;
@@ -87,6 +89,7 @@ public class NewsFeedAdapter
             itemImage = (ImageView) view.findViewById(R.id.image);
             itemTitle = (TextView) view.findViewById(R.id.title);
             itemDescription = (TextView) view.findViewById(R.id.description);
+            imageDescription = (TextView) view.findViewById(R.id.image_description);
             itemDate = (TextView) view.findViewById(R.id.pub_date);
             itemAuthor = (TextView) view.findViewById(R.id.author);
             cardView = (CardView) view.findViewById(R.id.card_view);

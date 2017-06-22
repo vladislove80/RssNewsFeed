@@ -133,13 +133,13 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
     }
 
     public void openNewsInCustomTab(String link) {
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder
                 .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .build();
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         CustomTabActivityHelper.openCustomTab(this, customTabsIntent,  Uri.parse(link),
                 new CustomTabActivityHelper.CustomTabFallback() {
                     @Override

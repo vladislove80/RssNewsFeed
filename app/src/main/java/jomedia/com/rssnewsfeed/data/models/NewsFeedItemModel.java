@@ -6,6 +6,7 @@ public class NewsFeedItemModel {
     private String date;
     private String author;
     private String newsLink;
+    private String imageDescription;
     private String description;
 
     public NewsFeedItemModel() {}
@@ -65,5 +66,13 @@ public class NewsFeedItemModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageDescription() {
+        return imageDescription;
+    }
+
+    public void setImageDescription(String imageDescription) {
+        this.imageDescription = imageDescription;
     }
 }
