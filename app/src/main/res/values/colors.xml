@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+
+    <color name="navigationview_header_background">@color/white</color>
+    <color name="navigation_list_background">@color/white</color>
 </resources>

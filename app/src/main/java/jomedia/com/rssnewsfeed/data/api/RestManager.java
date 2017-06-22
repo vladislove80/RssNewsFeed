@@ -1,19 +1,37 @@
 package jomedia.com.rssnewsfeed.data.api;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 
-import jomedia.com.rssnewsfeed.data.models.RssModel;
-import rx.Observable;
+import java.util.concurrent.TimeUnit;
+
+import jomedia.com.rssnewsfeed.BuildConfig;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RestManager {
-    private static final int RETRY_COUNT_FOR_REQUEST = 0;
+    private static final int CONNECT_TIMEOUT = 10;
+    private static final int READ_TIMEOUT = 10;
+    private final OkHttpClient.Builder httpClientBuilder;
 
-    private RestManager() {}
-    @NonNull
-    public static Observable<RssModel> getRssModel() {
-        return RestFactory.getRestApi()
-                .getRssData()
-                .retry(RETRY_COUNT_FOR_REQUEST)
-                .map(response -> response);
+    public RestManager() {
+        httpClientBuilder = new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        if (BuildConfig.DEBUG)
+            httpClientBuilder.addInterceptor(logging);
+    }
+
+    public RestApi provideRestApi(String link) {
+        return new Retrofit.Builder()
+                .baseUrl(link)
+                .client(httpClientBuilder.build())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build()
+                .create(RestApi.class);
     }
 }

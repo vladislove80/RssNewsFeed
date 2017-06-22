@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import jomedia.com.rssnewsfeed.R;
+import static jomedia.com.rssnewsfeed.R.drawable.no_image;
 
 public class PicassoUtil {
     private Context context;
@@ -17,8 +17,10 @@ public class PicassoUtil {
     public void loadImage(ImageView view, String url) {
         Picasso.with(context)
                 .load(url)
-                .resize(150, 100)
-                .placeholder(R.drawable.placeholder_150)
+                .placeholder(no_image)
+                .error(no_image)
+                .fit()
+                .centerCrop()
                 .into(view);
     }
 }
