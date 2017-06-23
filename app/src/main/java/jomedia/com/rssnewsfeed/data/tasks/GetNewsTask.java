@@ -11,7 +11,7 @@ import java.util.List;
 
 import jomedia.com.rssnewsfeed.data.api.RestApi;
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
-import jomedia.com.rssnewsfeed.data.models.DataResponse;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedResponse;
 import jomedia.com.rssnewsfeed.data.models.Item;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.models.RssModel;
@@ -27,14 +27,14 @@ public class GetNewsTask implements Runnable {
     @NonNull
     private final Handler mainHandler;
     @NonNull
-    private final NewsCallback<DataResponse> callback;
+    private final NewsCallback<NewsFeedResponse> callback;
     private boolean isOffline;
     String link;
 
     public GetNewsTask(@NonNull DatabaseSource localDataSource,
                        @NonNull RestApi restApi,
                        @NonNull Handler mainHandler,
-                       @NonNull NewsCallback<DataResponse> callback,
+                       @NonNull NewsCallback<NewsFeedResponse> callback,
                        @NonNull String link) {
         this.localDataSource = localDataSource;
         this.restApi = restApi;
@@ -52,7 +52,7 @@ public class GetNewsTask implements Runnable {
         if (!items.isEmpty()) {
             newsFeedItemModels = Utils.getNewsFeedItems(items);
         }
-        mainHandler.post(new CallbackToUI(new DataResponse(newsFeedItemModels, isOffline)));
+        mainHandler.post(new CallbackToUI(new NewsFeedResponse(newsFeedItemModels, isOffline)));
     }
 
     private List<Item> getItems() {
@@ -97,9 +97,9 @@ public class GetNewsTask implements Runnable {
     }
 
     private class CallbackToUI implements Runnable {
-        private final DataResponse response;
+        private final NewsFeedResponse response;
 
-        public CallbackToUI(DataResponse response) {
+        public CallbackToUI(NewsFeedResponse response) {
             this.response = response;
         }
 

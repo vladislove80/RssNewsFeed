@@ -4,12 +4,12 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
-public class DataResponse {
+public class NewsFeedResponse {
     @Nullable
     private List<NewsFeedItemModel> newsFeedItemModels;
     private boolean isOffline;
 
-    public DataResponse(List<NewsFeedItemModel> newsFeedItemModels, boolean isOffline) {
+    public NewsFeedResponse(List<NewsFeedItemModel> newsFeedItemModels, boolean isOffline) {
         this.newsFeedItemModels = newsFeedItemModels;
         this.isOffline = isOffline;
     }

@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
     public void openNewsInCustomTab(String link) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder
+                .addDefaultShareMenuItem()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .build();
         getWindow().setFlags(

@@ -7,7 +7,7 @@ import android.util.Log;
 import java.util.List;
 
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
-import jomedia.com.rssnewsfeed.data.models.DataResponse;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedResponse;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
 import jomedia.com.rssnewsfeed.data.repository.NewsRepository;
 import jomedia.com.rssnewsfeed.ui.base.BasePresenter;
@@ -31,9 +31,9 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
     @Override
     public void loadNews(@NonNull String link) {
         showProgress();
-        newsRepository.getNewsItems(new NewsCallback<DataResponse>() {
+        newsRepository.getNewsItems(new NewsCallback<NewsFeedResponse>() {
             @Override
-            public void onEmit(DataResponse data) {
+            public void onEmit(NewsFeedResponse data) {
                 String newsStatus = (data.isOffline())? "Offline" : "Online";
                 Log.i(Utils.LOG, "NewsPresentorImpl -> loadNews -> onEmit -> data is " + newsStatus);
                 handleData(data);
@@ -73,7 +73,7 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
             getView().hideProgress();
     }
 
-    private void handleData(DataResponse data) {
+    private void handleData(NewsFeedResponse data) {
         if (data != null && getView() != null) {
             if (data.getNewsFeedItemModels().size() != 0) {
                 newsFeedItemModels = data.getNewsFeedItemModels();

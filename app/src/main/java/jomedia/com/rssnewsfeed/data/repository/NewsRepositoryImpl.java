@@ -5,15 +5,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import jomedia.com.rssnewsfeed.data.api.RestApi;
 import jomedia.com.rssnewsfeed.data.api.RestManager;
 import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
 import jomedia.com.rssnewsfeed.data.executor.TaskExecutor;
-import jomedia.com.rssnewsfeed.data.models.DataResponse;
-import jomedia.com.rssnewsfeed.data.models.NewsFeedItemModel;
+import jomedia.com.rssnewsfeed.data.models.NewsFeedResponse;
 import jomedia.com.rssnewsfeed.data.db.DatabaseSource;
 import jomedia.com.rssnewsfeed.data.db.DatabaseSourceImpl;
 import jomedia.com.rssnewsfeed.data.tasks.GetNewsTask;
@@ -35,7 +33,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void getNewsItems(@NonNull NewsCallback<DataResponse> callback, @NonNull String link) {
+    public void getNewsItems(@NonNull NewsCallback<NewsFeedResponse> callback, @NonNull String link) {
         executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback, link));
     }
 }
