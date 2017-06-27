@@ -2,6 +2,9 @@ package jomedia.com.rssnewsfeed.data.api;
 
 import android.content.Context;
 
+import org.simpleframework.xml.convert.AnnotationStrategy;
+import org.simpleframework.xml.core.Persister;
+
 import java.util.concurrent.TimeUnit;
 
 import jomedia.com.rssnewsfeed.BuildConfig;
@@ -30,7 +33,7 @@ public class RestManager {
         return new Retrofit.Builder()
                 .baseUrl(link)
                 .client(httpClientBuilder.build())
-                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create(new Persister(new AnnotationStrategy())))
                 .build()
                 .create(RestApi.class);
     }

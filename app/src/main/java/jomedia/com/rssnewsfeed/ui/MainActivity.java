@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        links = Utils.rssLinks;
         setupDrawerToggle();
-        if (savedInstanceState == null) startNewsFeedFragment(mNavigationDrawerItemTitles[0]);
+        if (savedInstanceState == null) startNewsFeedFragment(links[0]);
         mDrawerList.setItemChecked(0, true);
         setTitle(mNavigationDrawerItemTitles[0]);
-        links = Utils.rssLinks;
     }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 

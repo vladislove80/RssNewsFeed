@@ -2,6 +2,9 @@ package jomedia.com.rssnewsfeed.data.models;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.convert.Convert;
+
+import jomedia.com.rssnewsfeed.data.PubDateConverter;
 
 @Root(name = "item", strict = false)
 public class Item {
@@ -13,6 +16,7 @@ public class Item {
     @Element(name = "guid", required = false)
     public String guid;
     @Element(name = "pubDate", required = false)
+    @Convert(PubDateConverter.class)
     public String pubDate;
     @Element(name = "author", required = false)
     public String author;

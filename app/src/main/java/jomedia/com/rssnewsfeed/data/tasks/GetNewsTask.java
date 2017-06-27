@@ -92,6 +92,14 @@ public class GetNewsTask implements Runnable {
                     callback.onError(new IOException("Response not converted to list of post"));
                 }
             });
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(new IOException("Smthn wrong with XML response.."));
+                }
+            });
         }
         return items;
     }

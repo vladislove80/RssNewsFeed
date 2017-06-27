@@ -25,7 +25,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_margin="@dimen/date_author_layout_margin">
 
@@ -37,10 +37,12 @@
                 android:textSize="@dimen/item_author_text_size" />
             <TextView
                 android:id="@+id/pub_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="pub_date"
-                android:textSize="@dimen/item_pub_date_text_size" />
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/item_pub_date_text_size"
+                android:gravity="right"/>
         </LinearLayout>
 
         <ImageView
