@@ -9,7 +9,10 @@ import jomedia.com.rssnewsfeed.data.models.Item;
 
 public interface DatabaseSource {
     @WorkerThread
-    void saveNews(@NonNull List<Item> news);
+    void saveNews(@NonNull List<Item> news, @NonNull String category);
+
+    @WorkerThread
+    List<Item> getCategoryItems(@NonNull String category);
 
     @WorkerThread
     List<Item> getAllItems();

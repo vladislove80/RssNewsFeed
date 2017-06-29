@@ -6,5 +6,5 @@ import jomedia.com.rssnewsfeed.data.callback.NewsCallback;
 import jomedia.com.rssnewsfeed.data.models.NewsFeedResponse;
 
 public interface NewsRepository {
-    void getNewsItems(@NonNull NewsCallback<NewsFeedResponse> callback, @NonNull String link);
+    void getNewsItems(@NonNull NewsCallback<NewsFeedResponse> callback, @NonNull String link, @NonNull String category);
 }

@@ -29,9 +29,18 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
     }
 
     @Override
-    public void loadNews(@NonNull String link) {
+    public void loadNews(@NonNull String link, @NonNull String category) {
         showProgress();
-        newsRepository.getNewsItems(new NewsCallback<NewsFeedResponse>() {
+        try {
+            newsRepository.getNewsItems(getNewsCallback(), link, category);
+        } catch(NullPointerException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    @NonNull
+    private NewsCallback<NewsFeedResponse> getNewsCallback() {
+        return new NewsCallback<NewsFeedResponse>() {
             @Override
             public void onEmit(NewsFeedResponse data) {
                 String newsStatus = (data.isOffline())? "Offline" : "Online";
@@ -46,7 +55,7 @@ public class NewsPresenterImpl extends BasePresenter<NewsView> implements NewsPr
             public void onError(Throwable throwable) {
                 showError();
             }
-        }, link);
+        };
     }
 
     @Override

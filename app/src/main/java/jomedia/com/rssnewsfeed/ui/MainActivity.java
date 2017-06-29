@@ -30,7 +30,7 @@ import jomedia.com.rssnewsfeed.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements OnNewsSelectedListener {
 
-    private String[] mNavigationDrawerItemTitles;
+    private String[] mNavigationDrawerCategories;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     Toolbar toolbar;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTitle = mDrawerTitle = getTitle();
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerCategories = getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         mDrawerList = (ListView) findViewById(R.id.nav_view);
@@ -55,16 +55,16 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, mNavigationDrawerItemTitles);
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, mNavigationDrawerCategories);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         links = Utils.rssLinks;
         setupDrawerToggle();
-        if (savedInstanceState == null) startNewsFeedFragment(links[0]);
+        if (savedInstanceState == null) {startNewsFeedFragment(links[0],  mNavigationDrawerCategories[0]);}
         mDrawerList.setItemChecked(0, true);
-        setTitle(mNavigationDrawerItemTitles[0]);
+        setTitle(mNavigationDrawerCategories[0]);
     }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
 
         private void selectItem(int position) {
             mDrawerList.setItemChecked(position, true);
-            Toast.makeText(MainActivity.this, mNavigationDrawerItemTitles[position], Toast.LENGTH_SHORT).show();
-            startNewsFeedFragment(links[position]);
-            setTitle(mNavigationDrawerItemTitles[position]);
+            Toast.makeText(MainActivity.this, mNavigationDrawerCategories[position], Toast.LENGTH_SHORT).show();
+            startNewsFeedFragment(links[position],  mNavigationDrawerCategories[position]);
+            setTitle(mNavigationDrawerCategories[position]);
             mDrawerLayout.closeDrawer(Gravity.LEFT);
         }
     }
@@ -113,11 +113,12 @@ public class MainActivity extends AppCompatActivity implements OnNewsSelectedLis
         //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
     }
-    private int startNewsFeedFragment(String link) {
+    private int startNewsFeedFragment(String newsLink, String newsCategory) {
         NewsPresenter presenter = new NewsPresenterImpl(this, RssAplication.getNewsRepository());
         NewsFeedFragment fragment = NewsFeedFragment.getInstance();
         Bundle bundle = new Bundle();
-        bundle.putString("link to news", link);
+        bundle.putString(NewsFeedFragment.TAG_LINK, newsLink);
+        bundle.putString(NewsFeedFragment.TAG_CATEGORY, newsCategory);
         fragment.setArguments(bundle);
         presenter.bindView(fragment);
         fragment.bindPresenter(presenter);

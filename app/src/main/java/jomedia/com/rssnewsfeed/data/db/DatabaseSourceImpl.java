@@ -80,10 +80,8 @@ public class DatabaseSourceImpl implements DatabaseSource {
 
     @WorkerThread
     @Override
-    public void saveNews(@NonNull List<Item> items) {
-        if (database != null) {
-            databaseHelper.clearTable(database);
-        }
+    public void saveNews(@NonNull List<Item> items, @NonNull String category) {
+       deleteNewsOfCategory(category);
         if (!isClosed) {
             insertNews(items);
         } else {
@@ -124,21 +122,21 @@ public class DatabaseSourceImpl implements DatabaseSource {
 
     @WorkerThread
     @Override
-    public List<Item> getAllItems() {
+    public List<Item> getCategoryItems(String category) {
         List<Item> items;
         if (!isClosed) {
-            items = itemsQuery();
+            items = itemsQuery(category);
         } else {
             openDB();
-            items = itemsQuery();
+            items = itemsQuery(category);
         }
         setTime();
         return items;
     }
 
-    private List<Item> itemsQuery() {
+    private List<Item> itemsQuery(String category) {
         List<Item> items = null;
-        Cursor cursor = database.query(DatabaseConst.TABLE.ITEMS, null, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseConst.TABLE.ITEMS, null, DatabaseConst.ITEM_FIELDS.CATEGORY + " =?", new String[]{category}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             items = new ArrayList<>();
             while (!cursor.isAfterLast()) {
@@ -149,6 +147,38 @@ public class DatabaseSourceImpl implements DatabaseSource {
             cursor.close();
         }
         return items;
+    }
+
+    @WorkerThread
+    @Override
+    public List<Item> getAllItems() {
+        List<Item> items;
+        if (!isClosed) {
+            items = allItemsQuery();
+        } else {
+            openDB();
+            items = allItemsQuery();
+        }
+        setTime();
+        return items;
+    }
+    private List<Item> allItemsQuery() {
+        List<Item> items = null;
+        Cursor cursor = database.query(DatabaseConst.TABLE.ITEMS, null,null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            items = new ArrayList<>();
+            while (!cursor.isAfterLast()) {
+                Item item = parseCursorToItem(cursor);
+                items.add(item);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return items;
+    }
+
+    private void deleteNewsOfCategory(String category) {
+        database.delete(DatabaseConst.TABLE.ITEMS, DatabaseConst.ITEM_FIELDS.CATEGORY + " =?", new String[]{category});
     }
 
     private Item parseCursorToItem(Cursor cursor) {

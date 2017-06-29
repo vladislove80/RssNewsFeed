@@ -29,27 +29,34 @@ public class GetNewsTask implements Runnable {
     @NonNull
     private final NewsCallback<NewsFeedResponse> callback;
     private boolean isOffline;
-    String link;
+    @NonNull
+    private String link;
+    @NonNull
+    private String category;
 
     public GetNewsTask(@NonNull DatabaseSource localDataSource,
                        @NonNull RestApi restApi,
                        @NonNull Handler mainHandler,
                        @NonNull NewsCallback<NewsFeedResponse> callback,
-                       @NonNull String link) {
+                       @NonNull String link,
+                       @NonNull String category) {
         this.localDataSource = localDataSource;
         this.restApi = restApi;
         this.mainHandler = mainHandler;
         this.callback = callback;
         this.link = link;
+        this.category = category;
         Log.v(Utils.LOG, "GetNewsTask: ");
     }
 
     @Override
     public void run() {
-        Log.v(Utils.LOG, "GetNewsTask -> run");
+        Log.v(Utils.LOG, "GetNewsTask -> run -> link = " + link);
         List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();
         List<Item> items = getItems();
         if (!items.isEmpty()) {
+            /*for (Item item : items) {
+                Log.v(Utils.LOG, "newsFeedItemModel category = " + item.getCategory());}*/
             newsFeedItemModels = Utils.getNewsFeedItems(items);
         }
         mainHandler.post(new CallbackToUI(new NewsFeedResponse(newsFeedItemModels, isOffline)));
@@ -58,7 +65,7 @@ public class GetNewsTask implements Runnable {
     private List<Item> getItems() {
         isOffline = true;
         List<Item> remoteItems = getRemoteNews();
-        List<Item> localItems = localDataSource.getAllItems();
+        List<Item> localItems = localDataSource.getCategoryItems(category);
         if (remoteItems == null) {
             if (localItems == null) {
                 localItems = Collections.emptyList();
@@ -67,13 +74,15 @@ public class GetNewsTask implements Runnable {
         } else {
             isOffline = false;
             saveNews(remoteItems);
+            List<Item> allLocalItems = localDataSource.getAllItems();
+            Log.v(Utils.LOG, "getItems: BD size = " + allLocalItems.size());
             return remoteItems;
         }
     }
 
     private void saveNews(List<Item> items) {
         if (items != null) {
-            localDataSource.saveNews(items);
+            localDataSource.saveNews(items, category);
         }
     }
 
@@ -83,6 +92,7 @@ public class GetNewsTask implements Runnable {
             RssModel rssModel = restApi.getRssData(link).execute().body();
             if (rssModel != null) {
                 items = rssModel.getChannel().getItems();
+                setNewsCategory(items);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,6 +112,12 @@ public class GetNewsTask implements Runnable {
             });
         }
         return items;
+    }
+
+    private void setNewsCategory(List<Item> items) {
+        for (Item item : items) {
+            item.setCategory(category);
+        }
     }
 
     private class CallbackToUI implements Runnable {

@@ -22,12 +22,15 @@ import jomedia.com.rssnewsfeed.ui.newsfeed.presenter.NewsPresenter;
 import jomedia.com.rssnewsfeed.utils.Utils;
 
 public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeedInteractor{
+    public static final String TAG_LINK = "news link";
+    public static final String TAG_CATEGORY = "news category";
 
     private List<NewsFeedItemModel> mNewsFeedItemModelList;
     private NewsFeedAdapter mNewsFeedAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NewsPresenter presenter;
-    String link;
+    private String newsLink;
+    private String newsCategory;
 
     private boolean mAlreadyLoaded = false;
 
@@ -40,7 +43,8 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        link = getArguments().getString("link to news");
+        newsLink = getArguments().getString(TAG_LINK);
+        newsCategory = getArguments().getString(TAG_CATEGORY);
         mNewsFeedItemModelList = new ArrayList<>();
     }
 
@@ -57,7 +61,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
         Log.v(Utils.LOG, "NewsFeedFragment -> onViewCreated: savedInstanceState == "
                 + ((savedInstanceState == null)? "null" : "not null"));
         if (!mAlreadyLoaded) {
-            getPresenter().loadNews(link);
+            getPresenter().loadNews(newsLink, newsCategory);
             mAlreadyLoaded = true;
         }
         swipeRefreshLayout = new SwipeRefreshLayout(getContext());
@@ -70,7 +74,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsView, NewsFeed
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getPresenter().loadNews(link);
+                getPresenter().loadNews(newsLink, newsCategory);
             }});
 
         addViewInContainer(swipeRefreshLayout);

@@ -5,6 +5,6 @@ import jomedia.com.rssnewsfeed.ui.newsfeed.view.NewsView;
 
 public interface NewsPresenter extends Presenter<NewsView> {
 
-    void loadNews(String link);
+    void loadNews(String link, String category);
     void onNewsFeedItemClick(String link);
 }

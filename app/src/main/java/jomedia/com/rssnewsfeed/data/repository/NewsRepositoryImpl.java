@@ -32,8 +32,9 @@ public class NewsRepositoryImpl implements NewsRepository {
         mainUiHandler = new Handler(Looper.getMainLooper());
     }
 
+    @NonNull
     @Override
-    public void getNewsItems(@NonNull NewsCallback<NewsFeedResponse> callback, @NonNull String link) {
-        executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback, link));
+    public void getNewsItems(@NonNull NewsCallback<NewsFeedResponse> callback, @NonNull String link, @NonNull String category) {
+        executorService.execute(new GetNewsTask(diskDataSource, restApi, mainUiHandler, callback, link, category));
     }
 }
