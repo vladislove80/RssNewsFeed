@@ -1,5 +1,6 @@
 package jomedia.com.rssnewsfeed.utils;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -38,23 +39,25 @@ public class Utils {
 
     public static List<NewsFeedItemModel> getNewsFeedItems(List<Item> items){
         List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();
-        String description = "";
-        for (int i = 0; i < items.size(); i++){
-            NewsFeedItemModel item = new NewsFeedItemModel();
-            description = items.get(i).getDescription();
-            boolean descNotNull = !TextUtils.isEmpty(description);
-            String title = items.get(i).getTitle();
-            String date = items.get(i).getPubDate();
-            String author = items.get(i).getAuthor();
-            String newsLink = items.get(i).getLink();
-            item.setImageLink(descNotNull ? getImageLinkFrom(description) : "");
-            item.setTitle(!TextUtils.isEmpty(title) ? title : "");
-            item.setImageDescription(descNotNull ? getImageDescription(description) : "");
-            item.setDescription(descNotNull ? getNewsDescription(description) : "");
-            item.setDate(!TextUtils.isEmpty(date) ? date : "");
-            item.setAuthor(!TextUtils.isEmpty(author) ? author : "");
-            item.setNewsLink(!TextUtils.isEmpty(newsLink) ? newsLink : "");
-            newsFeedItemModels.add(item);
+        if (items != null && !items.isEmpty()) {
+            String description;
+            for (int i = 0; i < items.size(); i++){
+                NewsFeedItemModel item = new NewsFeedItemModel();
+                description = items.get(i).getDescription();
+                boolean descNotNull = !TextUtils.isEmpty(description);
+                String title = items.get(i).getTitle();
+                String date = items.get(i).getPubDate();
+                String author = items.get(i).getAuthor();
+                String newsLink = items.get(i).getLink();
+                item.setImageLink(descNotNull ? getImageLinkFrom(description) : "");
+                item.setTitle(!TextUtils.isEmpty(title) ? title : "");
+                item.setImageDescription(descNotNull ? getImageDescription(description) : "");
+                item.setDescription(descNotNull ? getNewsDescription(description) : "");
+                item.setDate(!TextUtils.isEmpty(date) ? date : "");
+                item.setAuthor(!TextUtils.isEmpty(author) ? author : "");
+                item.setNewsLink(!TextUtils.isEmpty(newsLink) ? newsLink : "");
+                newsFeedItemModels.add(item);
+            }
         }
         return newsFeedItemModels;
     }

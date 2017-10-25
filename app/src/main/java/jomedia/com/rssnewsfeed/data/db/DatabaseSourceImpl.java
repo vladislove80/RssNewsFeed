@@ -47,7 +47,7 @@ public class DatabaseSourceImpl implements DatabaseSource {
         open(0);
     }
 
-    public synchronized void open(int attempt) {
+    private synchronized void open(int attempt) {
         close();
         try {
             database = databaseHelper.getWritableDatabase();
@@ -122,7 +122,7 @@ public class DatabaseSourceImpl implements DatabaseSource {
 
     @WorkerThread
     @Override
-    public List<Item> getCategoryItems(String category) {
+    public List<Item> getCategoryItems(@NonNull String category) {
         List<Item> items;
         if (!isClosed) {
             items = itemsQuery(category);

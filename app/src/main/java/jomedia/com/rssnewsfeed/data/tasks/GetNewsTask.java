@@ -52,13 +52,12 @@ public class GetNewsTask implements Runnable {
     @Override
     public void run() {
         Log.v(Utils.LOG, "GetNewsTask -> run -> link = " + link);
+        //Warning:(55, 54) Variable 'newsFeedItemModels' initializer 'new ArrayList<>()' is redundant
         List<NewsFeedItemModel> newsFeedItemModels = new ArrayList<>();
         List<Item> items = getItems();
-        if (!items.isEmpty()) {
-            /*for (Item item : items) {
-                Log.v(Utils.LOG, "newsFeedItemModel category = " + item.getCategory());}*/
-            newsFeedItemModels = Utils.getNewsFeedItems(items);
-        }
+        /*for (Item item : items) {
+            Log.v(Utils.LOG, "newsFeedItemModel category = " + item.getCategory());}*/
+        newsFeedItemModels = Utils.getNewsFeedItems(items);
         mainHandler.post(new CallbackToUI(new NewsFeedResponse(newsFeedItemModels, isOffline)));
     }
 

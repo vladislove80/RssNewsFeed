@@ -1,7 +1,5 @@
 package jomedia.com.rssnewsfeed.data.api;
 
-import android.content.Context;
-
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 

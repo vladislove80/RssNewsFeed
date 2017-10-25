@@ -24,11 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private void deleteOldTables(SQLiteDatabase db) {
         db.execSQL(DatabaseConst.QUERY.DROP_TABLE_ITEMS);
-
-    }
-
-    public void clearTable(SQLiteDatabase db){
-        db.execSQL(DatabaseConst.QUERY.CLEAR_TABLE_ITEMS);
     }
 
     @Override

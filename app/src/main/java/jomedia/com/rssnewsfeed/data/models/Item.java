@@ -101,6 +101,35 @@ public class Item {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (!title.equals(item.title)) return false;
+        if (!link.equals(item.link)) return false;
+        if (!guid.equals(item.guid)) return false;
+        if (!pubDate.equals(item.pubDate)) return false;
+        if (!author.equals(item.author)) return false;
+        if (!category.equals(item.category)) return false;
+        return description.equals(item.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + link.hashCode();
+        result = 31 * result + guid.hashCode();
+        result = 31 * result + pubDate.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + category.hashCode();
+        result = 31 * result + description.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "NewsItem{" + "\n" +
                 "title" + title + "\n" +
