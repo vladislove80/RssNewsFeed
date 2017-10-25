@@ -16,9 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        debugConfig {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile rootProject.file('debug.keystore')
+            storePassword 'android'
+        }
+    }
 }
 
 dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.3.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
     compile "com.android.support:design:25.3.1"
@@ -28,9 +38,9 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
-                exclude group: 'xpp3', module: 'xpp3'
-                exclude group: 'stax', module: 'stax-api'
-                exclude group: 'stax', module: 'stax'
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
     }
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:customtabs:25.3.1'
